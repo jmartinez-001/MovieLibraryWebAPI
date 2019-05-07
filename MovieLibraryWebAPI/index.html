@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Movie Library App</title>
+</head>
+<body>
+
+    <div>
+        <h2>Movie Library</h2>
+
+    </div>
+    <div>
+        <h2>Search by Title</h2>
+        <input type="text" id="Title" size="20" />
+        <input type="button" value="Search" onclick="find();" />
+        <p id="Movie" />
+    </div>
+    <div>
+        <table class="w3-table w3-striped w3-border">
+            <tr>
+                <th>Title</th>
+                <th>Genre</th>
+                <th>Director Name</th>
+            </tr>
+            <tr id = "Movies" />
+            
+
+            
+        </table>
+    </div>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script>
+        var uri = 'api/Movies';
+
+        $(document).ready(function () {
+            // Send an AJAX request
+            $.getJSON(uri)
+                .done(function (data) {
+                    // On success, 'data' contains a list of products.
+                    $.each(data, function (key, item) {
+                        // Add a list item for the product.
+                        $('<td>', { text: formatItem(item) }).appendTo($('#Movies'));
+                    });
+                });
+        });
+
+        function formatItem(item) {
+            return <tr>
+                <td>item.Title</td>
+                <td>item.Genre</td>
+                <td>item.MovieDirector</td>
+            </tr>;
+                
+        }
+
+        function find() {
+            var id = $('#Movie').val();
+            $.getJSON(uri + '/' + id)
+                .done(function (data) {
+                    $('#product').text(formatItem(data));
+                })
+                .fail(function (jqXHR, textStatus, err) {
+                    $('#product').text('Error: ' + err);
+                });
+        }
+    </script>
+</body>
+</html>
