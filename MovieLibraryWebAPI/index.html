@@ -10,22 +10,59 @@
 
     </div>
     <div>
-        <h2>Search by Title</h2>
+        <w3 medium>Search by Title</w3>
         <input type="text" id="Title" size="20" />
         <input type="button" value="Search" onclick="find();" />
         <p id="Movie" />
     </div>
     <div>
-        <table class="w3-table w3-striped w3-border">
-            <tr>
-                <th>Title</th>
-                <th>Genre</th>
-                <th>Director Name</th>
-            </tr>
-            <tr id = "Movies" />
-            
+        <w3 medium>Search by Genre</w3>
+        <input type="text" id="Genre" size="20"  />
+        <input type="button" value="Search" onclick="find();" />
+        <p id="Movie" />
+    </div>
+    <div>
+        <w3 medium>Search by Director</w3>
+        <input type="text" id="DirectorName" size="20" />
+        <input type="button" value="Search" onclick="find();" />
+        <p id="Movie" />
+    </div>
 
-            
+
+    <div class="w3-container">
+        <table class="w3-table w3-striped w3-border" id="Movies">
+            <tr class="col-md-6">
+                <th class="api-name">Title</th>
+                <th class="api-name">Genre</th>
+                <th class="api-name">Director Name</th>
+            </tr>
+            <tr>
+                <td class="api-documentation">lorem ipsum</td>
+                <td class="api-documentation">lorem ipsum</td>
+                <td class="api-documentation">lorem ipsum</td>
+            </tr>
+            <tr>
+                <td class="api-documentation">lorem ipsum</td>
+                <td class="api-documentation">lorem ipsum</td>
+                <td class="api-documentation">lorem ipsum</td>
+            </tr>
+            <tr>
+                <td class="api-documentation">lorem ipsum</td>
+                <td class="api-documentation">lorem ipsum</td>
+                <td class="api-documentation">lorem ipsum</td>
+            </tr>
+            <tr>
+                <td class="api-documentation">lorem ipsum</td>
+                <td class="api-documentation">lorem ipsum</td>
+                <td class="api-documentation">lorem ipsum</td>
+            </tr>
+            <tr>
+                <td class="api-documentation">lorem ipsum</td>
+                <td class="api-documentation">lorem ipsum</td>
+                <td class="api-documentation">lorem ipsum</td>
+            </tr>
+
+
         </table>
     </div>
 
@@ -51,17 +88,16 @@
                 <td>item.Genre</td>
                 <td>item.MovieDirector</td>
             </tr>;
-                
         }
 
         function find() {
             var id = $('#Movie').val();
             $.getJSON(uri + '/' + id)
                 .done(function (data) {
-                    $('#product').text(formatItem(data));
+                    $('#Movie').text(formatItem(data));
                 })
                 .fail(function (jqXHR, textStatus, err) {
-                    $('#product').text('Error: ' + err);
+                    $('#Movie').text('Error: ' + err);
                 });
         }
     </script>

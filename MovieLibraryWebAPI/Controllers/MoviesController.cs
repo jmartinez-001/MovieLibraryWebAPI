@@ -12,8 +12,8 @@ using MovieLibraryWebAPI.Models;
 
 namespace MovieLibraryWebAPI.Controllers
 {
-
-    [RoutePrefix("api/books")]
+    [AccessControlAllowOrigin]
+    [RoutePrefix("api/Movies")]
     public class MoviesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -39,12 +39,21 @@ namespace MovieLibraryWebAPI.Controllers
             return Ok(movie);
         }
 
+        // GET: api/Movies/Title
+        [Route("{Title}")]
+        public IQueryable<Movie> GetMoviesByTitle(string title)
+        {
+            return db.Movies.Where(b => b.Genre.Equals(title, StringComparison.OrdinalIgnoreCase));
+        }
+
+        // GET: api/Movies/Genre
         [Route("{Genre}")]
         public IQueryable<Movie> GetMoviesByGenre(string genre)
         {
             return db.Movies.Where(b => b.Genre.Equals(genre, StringComparison.OrdinalIgnoreCase));
         }
 
+        // GET: api/Movies/Director
         [Route("{DirectorName}")]
         public IQueryable<Movie> GetMoviesByDirectorName(string name)
         {
