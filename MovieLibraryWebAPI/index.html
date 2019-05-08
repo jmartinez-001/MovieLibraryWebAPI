@@ -1,66 +1,50 @@
 ﻿<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Movie Library App</title>
 </head>
 <body>
 
-    <div>
+    <div class=" w3-container">
         <h2>Movie Library</h2>
 
     </div>
-    <div>
-        <w3 medium>Search by Title</w3>
-        <input type="text" id="Title" size="20" />
-        <input type="button" value="Search" onclick="find();" />
-        <p id="Movie" />
+    <div class="w3-container">
+        <div>
+            <w3 medium>Search by Title</w3>
+            <input type="text" id="Title" size="20" />
+            <input type="button" value="Search" onclick="find(Title);" />
+            <p id="Movie" />
+        </div>
+        <div>
+            <w3 medium>Search by Genre</w3>
+            <input type="text" id="Genre" size="20" />
+            <input type="button" value="Search" onclick="find(Genre);" />
+            <p id="Movie" />
+        </div>
+        <div>
+            <w3 medium>Search by Director</w3>
+            <input type="text" id="DirectorName" size="20" />
+            <input type="button" value="Search" onclick="find(DirectorName);" />
+            <p id="Movie" />
+        </div>
     </div>
-    <div>
-        <w3 medium>Search by Genre</w3>
-        <input type="text" id="Genre" size="20"  />
-        <input type="button" value="Search" onclick="find();" />
-        <p id="Movie" />
-    </div>
-    <div>
-        <w3 medium>Search by Director</w3>
-        <input type="text" id="DirectorName" size="20" />
-        <input type="button" value="Search" onclick="find();" />
-        <p id="Movie" />
-    </div>
+    
 
 
     <div class="w3-container">
-        <table class="w3-table w3-striped w3-border" id="Movies">
-            <tr class="col-md-6">
-                <th class="api-name">Title</th>
-                <th class="api-name">Genre</th>
-                <th class="api-name">Director Name</th>
-            </tr>
-            <tr>
-                <td class="api-documentation">lorem ipsum</td>
-                <td class="api-documentation">lorem ipsum</td>
-                <td class="api-documentation">lorem ipsum</td>
-            </tr>
-            <tr>
-                <td class="api-documentation">lorem ipsum</td>
-                <td class="api-documentation">lorem ipsum</td>
-                <td class="api-documentation">lorem ipsum</td>
-            </tr>
-            <tr>
-                <td class="api-documentation">lorem ipsum</td>
-                <td class="api-documentation">lorem ipsum</td>
-                <td class="api-documentation">lorem ipsum</td>
-            </tr>
-            <tr>
-                <td class="api-documentation">lorem ipsum</td>
-                <td class="api-documentation">lorem ipsum</td>
-                <td class="api-documentation">lorem ipsum</td>
-            </tr>
-            <tr>
-                <td class="api-documentation">lorem ipsum</td>
-                <td class="api-documentation">lorem ipsum</td>
-                <td class="api-documentation">lorem ipsum</td>
-            </tr>
+        <table class="w3-table-all" id="Movies">
+            <thead>
+                <tr class="w3-light-grey">
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Director Name</th>
+                </tr>
+            </thead>           
+           
+
 
 
         </table>
@@ -72,32 +56,73 @@
 
         $(document).ready(function () {
             // Send an AJAX request
+
+
+
+
             $.getJSON(uri)
-                .done(function (data) {
+                .done(function (data) {           
                     // On success, 'data' contains a list of products.
                     $.each(data, function (key, item) {
-                        // Add a list item for the product.
-                        $('<td>', { text: formatItem(item) }).appendTo($('#Movies'));
+                        // Add table data for the product.
+                        tr = $('<tr>');
+                        tr.append("<td>" + item.Title + "</td>");
+                        tr.append("<td>" + item.Genre + "</td>");
+                        tr.append("<td>" + item.DirectorName + "</td>");
+                        $('#Movies').append(tr);
                     });
                 });
         });
 
-        function formatItem(item) {
-            return <tr>
-                <td>item.Title</td>
-                <td>item.Genre</td>
-                <td>item.MovieDirector</td>
-            </tr>;
-        }
+        //function formatItem(item) {
+        //    return <tr>
+        //        <td>item.Title</td>
+        //        <td>item.Genre</td>
+        //        <td>item.MovieDirector</td>
+        //    </tr>;
+        //}
 
         function find() {
-            var id = $('#Movie').val();
+            var id = $('#Movie').val().anchor;
             $.getJSON(uri + '/' + id)
                 .done(function (data) {
-                    $('#Movie').text(formatItem(data));
+                    $('#Movies').text(formatItem(data));
                 })
                 .fail(function (jqXHR, textStatus, err) {
-                    $('#Movie').text('Error: ' + err);
+                    $('#Movies').text('Error: ' + err);
+                });
+        }
+
+        function find(Title) {
+            var id = $('#Title').val().anchor;
+            $.getJSON(uri + '/' + id)
+                .done(function (data) {
+                    $('#Movies').text(formatItem(data));
+                })
+                .fail(function (jqXHR, textStatus, err) {
+                    $('#Movies').text('Error: ' + err);
+                });
+        }
+
+        function find(Genre) {
+            var id = $('#Genre').val().anchor;
+            $.getJSON(uri + '/' + id)
+                .done(function (data) {
+                    $('#Movies').text(formatItem(data));
+                })
+                .fail(function (jqXHR, textStatus, err) {
+                    $('#Movies').text('Error: ' + err);
+                });
+        }
+
+        function find(DirectorName) {
+            var id = $('#DirectorName').val().anchor;
+            $.getJSON(uri + '/' + id)
+                .done(function (data) {
+                    $('#Movies').text(formatItem(data));
+                })
+                .fail(function (jqXHR, textStatus, err) {
+                    $('#Movies').text('Error: ' + err);
                 });
         }
     </script>

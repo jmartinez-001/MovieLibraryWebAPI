@@ -13,7 +13,7 @@ using MovieLibraryWebAPI.Models;
 
 namespace MovieLibraryWebAPI.Controllers
 {
-    [AllowCrossSiteAttribute]
+    [MovieLibraryWebAPI.Custom_Attributes.AllowCrossSiteAttribute]
     [RoutePrefix("api/Movies")]
     public class MoviesController : ApiController
     {
