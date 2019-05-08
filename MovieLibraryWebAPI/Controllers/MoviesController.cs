@@ -8,11 +8,12 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using MovieLibraryWebAPI.Custom_Attributes;
 using MovieLibraryWebAPI.Models;
 
 namespace MovieLibraryWebAPI.Controllers
 {
-    [AccessControlAllowOrigin]
+    [AllowCrossSiteAttribute]
     [RoutePrefix("api/Movies")]
     public class MoviesController : ApiController
     {
@@ -40,21 +41,21 @@ namespace MovieLibraryWebAPI.Controllers
         }
 
         // GET: api/Movies/Title
-        [Route("{Title}")]
+        [Route("Title/{title}")]
         public IQueryable<Movie> GetMoviesByTitle(string title)
         {
             return db.Movies.Where(b => b.Genre.Equals(title, StringComparison.OrdinalIgnoreCase));
         }
 
         // GET: api/Movies/Genre
-        [Route("{Genre}")]
+        [Route("Genre/{genre}")]
         public IQueryable<Movie> GetMoviesByGenre(string genre)
         {
             return db.Movies.Where(b => b.Genre.Equals(genre, StringComparison.OrdinalIgnoreCase));
         }
 
         // GET: api/Movies/Director
-        [Route("{DirectorName}")]
+        [Route("DirectorName/{name}")]
         public IQueryable<Movie> GetMoviesByDirectorName(string name)
         {
             return db.Movies.Where(b => b.Genre.Equals(name, StringComparison.OrdinalIgnoreCase));
