@@ -44,7 +44,7 @@ namespace MovieLibraryWebAPI.Controllers
         [Route("Title/{title}")]
         public IQueryable<Movie> GetMoviesByTitle(string title)
         {
-            return db.Movies.Where(b => b.Genre.Equals(title, StringComparison.OrdinalIgnoreCase));
+            return db.Movies.Where(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
         }
 
         // GET: api/Movies/Genre
@@ -58,7 +58,7 @@ namespace MovieLibraryWebAPI.Controllers
         [Route("DirectorName/{name}")]
         public IQueryable<Movie> GetMoviesByDirectorName(string name)
         {
-            return db.Movies.Where(b => b.Genre.Equals(name, StringComparison.OrdinalIgnoreCase));
+            return db.Movies.Where(b => b.DirectorName.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
         // PUT: api/Movies/5

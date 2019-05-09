@@ -14,21 +14,18 @@
     <div class="w3-container">
         <div>
             <w3 medium>Search by Title</w3>
-            <input type="text" id="Title" size="20" />
-            <input type="button" value="Search" onclick="find(Title);" />
-            <p id="Movie" />
+            <input type="text" id="Title" size="20" onfocus="this.value=''" />
+            <input type="button" value="Search" onclick="findTitle();" />
         </div>
         <div>
             <w3 medium>Search by Genre</w3>
-            <input type="text" id="Genre" size="20" />
-            <input type="button" value="Search" onclick="find(Genre);" />
-            <p id="Movie" />
+            <input type="text" id="Genre" size="20" onfocus="this.value=''" />
+            <input type="button" value="Search" onclick="findGenre();" />
         </div>
         <div>
             <w3 medium>Search by Director</w3>
-            <input type="text" id="DirectorName" size="20" />
-            <input type="button" value="Search" onclick="find(DirectorName);" />
-            <p id="Movie" />
+            <input type="text" id="DirectorName" size="20" onfocus="this.value=''"/>
+            <input type="button" value="Search" onclick="findDirectorName();" />
         </div>
     </div>
     
@@ -42,11 +39,12 @@
                     <th>Genre</th>
                     <th>Director Name</th>
                 </tr>
-            </thead>           
-           
+            </thead>
+            <tbody>
 
 
 
+            </tbody>
         </table>
     </div>
 
@@ -56,10 +54,6 @@
 
         $(document).ready(function () {
             // Send an AJAX request
-
-
-
-
             $.getJSON(uri)
                 .done(function (data) {           
                     // On success, 'data' contains a list of products.
@@ -72,54 +66,81 @@
                         $('#Movies').append(tr);
                     });
                 });
-        });
-
-        //function formatItem(item) {
-        //    return <tr>
-        //        <td>item.Title</td>
-        //        <td>item.Genre</td>
-        //        <td>item.MovieDirector</td>
-        //    </tr>;
-        //}
+        });       
 
         function find() {
-            var id = $('#Movie').val().anchor;
+            var id = $('#Movie').val();
             $.getJSON(uri + '/' + id)
                 .done(function (data) {
-                    $('#Movies').text(formatItem(data));
+                    // On success, 'data' contains a list of products.
+                    $.each(data, function (key, item) {
+                        // Add table data for the product.
+                        tr = $('<tr>');
+                        tr.append("<td>" + item.Title + "</td>");
+                        tr.append("<td>" + item.Genre + "</td>");
+                        tr.append("<td>" + item.DirectorName + "</td>");
+                        $('#Movies').append(tr);
+                    });
                 })
                 .fail(function (jqXHR, textStatus, err) {
                     $('#Movies').text('Error: ' + err);
                 });
         }
 
-        function find(Title) {
-            var id = $('#Title').val().anchor;
-            $.getJSON(uri + '/' + id)
+        function findTitle() {
+            $('#Movies').find('tbody').remove();
+            var id = $('#Title').val();
+            $.getJSON(uri + '/Title/' + id)
                 .done(function (data) {
-                    $('#Movies').text(formatItem(data));
+                    // On success, 'data' contains a list of products.
+                    $.each(data, function (key, item) {
+                        // Add table data for the product.
+                        tr = $('<tr>');
+                        tr.append("<td>" + item.Title + "</td>");
+                        tr.append("<td>" + item.Genre + "</td>");
+                        tr.append("<td>" + item.DirectorName + "</td>");
+                        $('#Movies').append(tr);
+                    });
                 })
                 .fail(function (jqXHR, textStatus, err) {
                     $('#Movies').text('Error: ' + err);
                 });
         }
 
-        function find(Genre) {
-            var id = $('#Genre').val().anchor;
-            $.getJSON(uri + '/' + id)
+        function findGenre() {
+            $('#Movies').find('tbody').remove();
+            var id = $('#Genre').val();
+            $.getJSON(uri + '/Genre/' + id)
                 .done(function (data) {
-                    $('#Movies').text(formatItem(data));
+                    // On success, 'data' contains a list of products.
+                    $.each(data, function (key, item) {
+                        // Add table data for the product.
+                        tr = $('<tr>');
+                        tr.append("<td>" + item.Title + "</td>");
+                        tr.append("<td>" + item.Genre + "</td>");
+                        tr.append("<td>" + item.DirectorName + "</td>");
+                        $('#Movies').append(tr);
+                    });
                 })
                 .fail(function (jqXHR, textStatus, err) {
                     $('#Movies').text('Error: ' + err);
                 });
         }
 
-        function find(DirectorName) {
-            var id = $('#DirectorName').val().anchor;
-            $.getJSON(uri + '/' + id)
+        function findDirectorName() {
+            $('#Movies').find('tbody').remove();
+            var id = $('#DirectorName').val();
+            $.getJSON(uri + '/DirectorName/' + id)
                 .done(function (data) {
-                    $('#Movies').text(formatItem(data));
+                    // On success, 'data' contains a list of products.
+                    $.each(data, function (key, item) {
+                        // Add table data for the product.
+                        tr = $('<tr>');
+                        tr.append("<td>" + item.Title + "</td>");
+                        tr.append("<td>" + item.Genre + "</td>");
+                        tr.append("<td>" + item.DirectorName + "</td>");
+                        $('#Movies').append(tr);
+                    });
                 })
                 .fail(function (jqXHR, textStatus, err) {
                     $('#Movies').text('Error: ' + err);
