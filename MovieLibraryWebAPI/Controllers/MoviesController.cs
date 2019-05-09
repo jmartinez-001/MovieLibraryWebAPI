@@ -28,6 +28,7 @@ namespace MovieLibraryWebAPI.Controllers
 
         // GET: api/Movies/5
         [Route("{id:int}")]
+        [HttpGet]
         [ResponseType(typeof(Movie))]
         public IHttpActionResult GetMovie(int id)
         {
@@ -62,6 +63,7 @@ namespace MovieLibraryWebAPI.Controllers
         }
 
         // PUT: api/Movies/5
+        [HttpPut]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutMovie(int id, Movie movie)
         {
@@ -97,6 +99,7 @@ namespace MovieLibraryWebAPI.Controllers
         }
 
         // POST: api/Movies
+        [HttpPost]
         [ResponseType(typeof(Movie))]
         public IHttpActionResult PostMovie(Movie movie)
         {
@@ -112,6 +115,7 @@ namespace MovieLibraryWebAPI.Controllers
         }
 
         // DELETE: api/Movies/5
+        [HttpDelete]
         [ResponseType(typeof(Movie))]
         public IHttpActionResult DeleteMovie(int id)
         {

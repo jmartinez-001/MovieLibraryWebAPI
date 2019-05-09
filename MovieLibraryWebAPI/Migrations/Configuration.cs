@@ -23,7 +23,27 @@ namespace MovieLibraryWebAPI.Migrations
                 new Models.Movie { Title = "The Dark Knight", Genre = "Drama", DirectorName = "Christopher Nolan" },
                 new Models.Movie { Title = "Inception", Genre = "Drama", DirectorName = "Christopher Nolan" },
                 new Models.Movie { Title = "Pineapple Express", Genre = "Comedy", DirectorName = "David Gordon Green" },
-                new Models.Movie { Title = "Die Hard", Genre = "Action", DirectorName = "John McTiernan" }
+                new Models.Movie { Title = "Die Hard", Genre = "Action", DirectorName = "John McTiernan" },
+                new Models.Movie { Title = "Goodfellas", Genre = "Drama", DirectorName = "Martin Scorsese" },
+                new Models.Movie { Title = "The Wolf of Wall Street", Genre = "Drama", DirectorName = "Martin Scorsese" },
+                new Models.Movie { Title = "Casino", Genre = "Drama", DirectorName = "Martin Scorsese" },
+                new Models.Movie { Title = "Your Highness", Genre = "Comedy", DirectorName = "David Gordon Green" },
+                new Models.Movie { Title = "Halloween", Genre = "Thriller", DirectorName = "David Gordon Green" },
+                new Models.Movie { Title = "Halloween", Genre = "Thriller", DirectorName = "John Carpenter" },
+                new Models.Movie { Title = "Vampires", Genre = "Horror", DirectorName = "John Carpenter" },
+                new Models.Movie { Title = "The Matrix", Genre = "Action", DirectorName = "The Wachowski Brothers" },
+                new Models.Movie { Title = "The Matrix Reloaded", Genre = "Action", DirectorName = "The Wachowski Brothers" },
+                new Models.Movie { Title = "The Matrix Revolutions", Genre = "Action", DirectorName = "The Wachowski Brothers" }
+
+
+
+
+
+
+
+
+
+
                 );
         }
     }

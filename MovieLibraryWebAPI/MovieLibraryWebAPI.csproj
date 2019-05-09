@@ -224,6 +224,10 @@
     <Compile Include="Migrations\201905071835358_seeding data take 2.Designer.cs">
       <DependentUpon>201905071835358_seeding data take 2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905091434050_Seeded database to test adding table pagination.cs" />
+    <Compile Include="Migrations\201905091434050_Seeded database to test adding table pagination.Designer.cs">
+      <DependentUpon>201905091434050_Seeded database to test adding table pagination.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -347,6 +351,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905071835358_seeding data take 2.resx">
       <DependentUpon>201905071835358_seeding data take 2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905091434050_Seeded database to test adding table pagination.resx">
+      <DependentUpon>201905091434050_Seeded database to test adding table pagination.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

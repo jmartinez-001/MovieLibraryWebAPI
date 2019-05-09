@@ -1,9 +1,21 @@
 ﻿<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Movie Library App</title>
+    <style>
+        .w3-table-all {
+            margin: 25px 10px 100px 5px;
+        }
+
+        .w3-container {
+            margin: 10px 10px 10px 5px;
+        }
+    </style>
 </head>
 <body>
 
@@ -11,8 +23,9 @@
         <h2>Movie Library</h2>
 
     </div>
+    <input type="hidden" id="MovieId" value="0" />
     <div class="w3-container">
-        <div>
+        <!--<div>
             <w3 medium>Search by Title</w3>
             <input type="text" id="Title" size="20" onfocus="this.value=''" />
             <input type="button" value="Search" onclick="findTitle();" />
@@ -24,29 +37,71 @@
         </div>
         <div>
             <w3 medium>Search by Director</w3>
-            <input type="text" id="DirectorName" size="20" onfocus="this.value=''"/>
+            <input type="text" id="DirectorName" size="20" onfocus="this.value=''" />
             <input type="button" value="Search" onclick="findDirectorName();" />
+        </div>-->
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Movie Information
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-control-sm">
+                            <label for="Title">
+                                Title
+                            </label>
+                            <input type="text" id="Title"
+                                   class="form-control" />
+                        </div>
+                        <div class="form-control-sm">
+                            <label for="Genre">
+                                Genre
+                            </label>
+                            <input type="text" id="Genre"
+                                   class="form-control" />
+                        </div>
+                        <div class="form-control-sm">
+                            <label for="DirectorName">
+                                Director(s)
+                            </label>
+                            <input type="text" id="DirectorName"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button type="button" id="updateButton"
+                                        class="btn btn-primary"
+                                        onclick="updateClick();">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
 
 
     <div class="w3-container">
         <table class="w3-table-all" id="Movies">
             <thead>
-                <tr class="w3-light-grey">
-                    <th>Title</th>
-                    <th>Genre</th>
-                    <th>Director Name</th>
+                <tr class="w3-dark-grey">
+                    <th width="5%">Edit</th>
+                    <th width="15%">Title</th>
+                    <th width="10%">Genre</th>
+                    <th width="25%">Director Name</th>
+                    <th width="5%">Delete</th>
                 </tr>
             </thead>
-            <tbody>
-
-
-
-            </tbody>
         </table>
     </div>
+
 
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
     <script>
@@ -54,38 +109,118 @@
 
         $(document).ready(function () {
             // Send an AJAX request
-            $.getJSON(uri)
-                .done(function (data) {           
-                    // On success, 'data' contains a list of products.
-                    $.each(data, function (key, item) {
-                        // Add table data for the product.
-                        tr = $('<tr>');
-                        tr.append("<td>" + item.Title + "</td>");
-                        tr.append("<td>" + item.Genre + "</td>");
-                        tr.append("<td>" + item.DirectorName + "</td>");
-                        $('#Movies').append(tr);
-                    });
-                });
-        });       
+            MovieList();
+        });
 
-        function find() {
-            var id = $('#Movie').val();
-            $.getJSON(uri + '/' + id)
-                .done(function (data) {
-                    // On success, 'data' contains a list of products.
-                    $.each(data, function (key, item) {
-                        // Add table data for the product.
-                        tr = $('<tr>');
-                        tr.append("<td>" + item.Title + "</td>");
-                        tr.append("<td>" + item.Genre + "</td>");
-                        tr.append("<td>" + item.DirectorName + "</td>");
-                        $('#Movies').append(tr);
-                    });
-                })
-                .fail(function (jqXHR, textStatus, err) {
-                    $('#Movies').text('Error: ' + err);
-                });
+        var Movie = {
+            MovieId: 0,
+            Title: "",
+            Genre: "",
+            DirectorName: ""
         }
+
+        function updateClick() {
+            Movie = new Object();
+            Movie.MovieId = $("#MovieId").val();
+            Movie.Title = $("#Title").val();
+            Movie.Genre = $("#Genre").val();
+            Movie.DirectorName = $("#DirectorName").val();
+
+            if ($("#updateButton").text().trim() == "Add") {
+                MovieAdd(Movie);
+            }
+            else {
+                MovieUpdate(Movie);
+            }
+
+        }
+
+        function addClick() {
+            formClear();
+        }
+
+        function MovieUpdate(Movie) {
+            var url = "/api/Movies/" + Movie.MovieId;
+
+            // Call Web API to update product
+            $.ajax({
+                url: url,
+                type: 'PUT',
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(Movie),
+                success: function (Movie) {
+                    MovieList();
+                },
+                error: function (request, message, error) {
+                    handleException(request, message, error);
+                }
+            });
+        }
+
+        function addMovie(Movie) {
+            $.ajax({
+                url: "/api/Movies",
+                type: 'POST',
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(Movie),
+                success: function (Movie) {
+                    MovieList();
+                },
+                error: function (request, message, error) {
+                    handleException(request, message, error);
+                }
+            });
+        }
+
+        function MovieGet(ctl) {
+            // Get Movie id from data- attribute
+            var id = $(ctl).data("id");
+
+            // Store Movie id in hidden field
+            $("#MovieId").val(id);
+
+            // Call Web API to get a Movie
+            $.ajax({
+                url: "api/Movies/" + id,
+                type: 'GET',
+                dataType: 'json',
+                success: function (Movie) {
+                    movieToFields(Movie);
+
+                    // Change Update Button Text
+                    $("#updateButton").text("Update");
+                },
+                error: function (request, message, error) {
+                    handleException(request, message, error);
+                }
+            });
+        }
+
+        function movieToFields(Movie) {
+            $("#Title").val(Movie.Title);
+            $("#Genre").val(Movie.Genre);
+            $("#DirectorName").val(Movie.DirectorName);
+
+        }
+
+        //function find() {
+        //    var id = $('#Movie').val();
+        //    $.getJSON(uri + '/' + id)
+        //        .done(function (data) {
+        //            // On success, 'data' contains a list of products.
+        //            $.each(data, function (key, item) {
+        //                // Add table data for the product.
+        //                tr = $('<tr>');
+        //                tr.append("<td>" + item.Title + "</td>");
+        //                tr.append("<td>" + item.Genre + "</td>");
+        //                tr.append("<td>" + item.DirectorName + "</td>");
+        //                $('#Movies').append(tr);
+        //            });
+        //        })
+        //        .fail(function (jqXHR, textStatus, err) {
+        //            $('#Movies').text('Error: ' + err);
+        //        });
+        //}
 
         function findTitle() {
             $('#Movies').find('tbody').remove();
@@ -146,6 +281,109 @@
                     $('#Movies').text('Error: ' + err);
                 });
         }
+
+
+
+        // Get all Movies to display
+        function MovieList() {
+            // Call Web API to get a list of Movies
+            $.ajax({
+                url: '/api/Movies/',
+                type: 'GET',
+                dataType: 'json',
+                success: function (Movies) {
+                    movieListSuccess(Movies);
+                },
+                error: function (request, message, error) {
+                    handleException(request, message, error);
+                }
+            });
+        }
+
+        // Display all Products returned from Web API call
+        function movieListSuccess(Movies) {
+            // Iterate over the collection of data
+            $.each(Movies, function (key, movie) {
+                // Add table data for the product.
+                MovieAddRow(movie);
+            });
+        }
+
+        // Add Product row to <table>
+        function MovieAddRow(movie) {
+            // First check if a <tbody> tag exists, add one if not
+            if ($("#Movies tbody").length == 0) {
+                $("#Movies").append("<tbody></tbody>");
+            }
+
+            // Append row to <table>
+            $("#Movies tbody").append(
+                MovieBuildTableRow(movie));
+        }
+
+        // Build a <tr> for a row of table data
+        function MovieBuildTableRow(Movie) {
+            var ret = "<tr>" +
+                "<td>" +
+                "<button type='button' " +
+                "onclick='MovieGet(this);' " +
+                "class='btn btn-default' " +
+                "data-id='" + Movie.Id + "'>" +
+                "<span class='glyphicon glyphicon-edit' />" +
+                "</button>" +
+                "</td>" +
+                "<td>" + Movie.Title + "</td>" +
+                "<td>" + Movie.Genre + "</td>" +
+                "<td>" + Movie.DirectorName + "</td>" +
+                "<td>" +
+                "<button type='button' " +
+                "onclick='MovieDelete(this);' " +
+                "class='btn btn-default' " +
+                "data-id='" + Movie.Id + "'>" +
+                "<span class='glyphicon glyphicon-remove' />" +
+                "</button>" +
+                "</td>" +
+                "</tr>";
+
+            return ret;
+        }
+
+        // Clear form fields
+        function formClear() {
+            $("#productname").val("");
+            $("#introdate").val("");
+            $("#url").val("");
+        }
+
+        // Delete movie
+        function movieDelete(ctl) {
+            var id = $(ctl).data("id");
+            //Call web API to delete movie
+            $.ajax({
+                url: "/api/Movies/" + id,
+                type: 'DELETE',
+                success: function (movie) {
+                    $(ctl).parents("tr").remove();
+                },
+                error: function (request, message, error) {
+                    handleException(request, message, error);
+                }
+            })
+        }
+
+        // Handle exceptions from AJAX calls
+        function handleException(request, message, error) {
+            var msg = "";
+
+            msg += "Code: " + request.status + "\n";
+            msg += "Text: " + request.statusText + "\n";
+            if (request.responseJSON != null) {
+                msg += "Message" + request.responseJSON.Message + "\n";
+            }
+
+            alert(msg);
+        }
+
     </script>
 </body>
 </html>
