@@ -13,7 +13,7 @@ using MovieLibraryWebAPI.Models;
 
 namespace MovieLibraryWebAPI.Controllers
 {
-    [MovieLibraryWebAPI.Custom_Attributes.AllowCrossSiteAttribute]
+    [AllowCrossSite]
     [RoutePrefix("api/Movies")]
     public class MoviesController : ApiController
     {
@@ -63,7 +63,8 @@ namespace MovieLibraryWebAPI.Controllers
         }
 
         // PUT: api/Movies/5
-        [HttpPut]
+        [HttpPut()]
+        [Route("{id:int}")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutMovie(int id, Movie movie)
         {
@@ -99,7 +100,8 @@ namespace MovieLibraryWebAPI.Controllers
         }
 
         // POST: api/Movies
-        [HttpPost]
+        [HttpPost()]
+        [Route("")]
         [ResponseType(typeof(Movie))]
         public IHttpActionResult PostMovie(Movie movie)
         {
@@ -115,7 +117,8 @@ namespace MovieLibraryWebAPI.Controllers
         }
 
         // DELETE: api/Movies/5
-        [HttpDelete]
+        [HttpDelete()]
+        [Route("{id:int}")]
         [ResponseType(typeof(Movie))]
         public IHttpActionResult DeleteMovie(int id)
         {
